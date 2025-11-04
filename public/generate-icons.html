@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate PWA Icons</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <canvas id="canvas512" width="512" height="512"></canvas>
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Черный фон
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Желтый квадрат
+            const margin = size * 0.15;
+            ctx.fillStyle = '#FACC15';
+            ctx.fillRect(margin, margin, size - margin * 2, size - margin * 2);
+            
+            // Буква "О" в центре
+            ctx.fillStyle = '#000000';
+            ctx.font = `bold ${size * 0.4}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('О', size / 2, size / 2);
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        function downloadIcon(dataUrl, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataUrl;
+            link.click();
+        }
+        
+        // Генерируем иконки
+        const icon192 = createIcon('canvas192', 192);
+        const icon512 = createIcon('canvas512', 512);
+        
+        // Скачиваем иконки
+        downloadIcon(icon192, 'pwa-192x192.png');
+        setTimeout(() => downloadIcon(icon512, 'pwa-512x512.png'), 500);
+        
+        console.log('Иконки созданы! Скопируйте файлы из папки Downloads в папку public/');
+    </script>
+</body>
+</html>
+
